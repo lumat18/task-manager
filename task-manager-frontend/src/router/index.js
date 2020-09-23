@@ -13,15 +13,17 @@ const routes = [
     component: Home,
   },
   {
-    path: '/about',
-    name: 'About',
+    path: '/board',
+    name: 'Board',
     component: Board,
-  },
-  {
-    path: '/issue/create',
-    name: 'create-issue',
-    component: IssueCreationModal,
-    props: true,
+    children: [
+      {
+        path: '/issue/create',
+        name: 'CreateIssue',
+        component: IssueCreationModal,
+        props: true,
+      },
+    ],
   },
 ];
 

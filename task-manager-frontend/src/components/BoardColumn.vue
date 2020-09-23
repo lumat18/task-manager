@@ -11,21 +11,20 @@
                    :issue="issue"
                    :issue-index="index"
                    :column-index="columnIndex"
-                   @drag="dragIssue"
+                   @drag-issue="startDragging"
+                   @drop-issue="closeDeleteZone"
         />
       </div>
     </DropWrapper>
-    <div v-if="isDragging" class="delete-zone">
-      <p>Drop here to delete</p>
-    </div>
+    <IssueDeleteZone v-if="isDragging" @drop-issue="closeDeleteZone"/>
   </div>
 </template>
 
 <script>
-import { mapState } from 'vuex';
 import IssueCard from './IssueCard.vue';
 import IssueCreateButton from './IssueCreateButton.vue';
 import DropWrapper from './DropWrapper.vue';
+import IssueDeleteZone from './IssueDeleteZone.vue';
 import issueMovement from '../mixins/issueMovement';
 
 export default {
@@ -34,15 +33,14 @@ export default {
     IssueCard,
     IssueCreateButton,
     DropWrapper,
+    IssueDeleteZone,
   },
   mixins: [issueMovement],
   data() {
     return {
       columnTitle: this.title,
+      isDragging: false,
     };
-  },
-  computed: {
-    ...mapState(['isDragging']),
   },
   props: {
     title: {
@@ -62,8 +60,18 @@ export default {
     changeTitle() {
       this.$emit('titleChange', { columnIndex: this.columnIndex, newTitle: this.columnTitle });
     },
-    dragIssue() {
-      this.$store.commit('DRAG_ON');
+    startDragging() {
+      this.isDragging = true;
+    },
+    closeDeleteZone() {
+      this.isDragging = false;
+    },
+  },
+  watch: {
+    issues() {
+      if (this.issues.length === 0) {
+        this.closeDeleteZone();
+      }
     },
   },
 };
@@ -112,21 +120,6 @@ export default {
   .header {
     display: flex;
     justify-content: space-evenly;
-  }
-
-  .delete-zone {
-    background-color: rgba(196, 195, 195, 0.6);
-    margin: 0 8px 8px 8px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100px;
-    border: 2px lightgray dashed;
-    border-radius: 4px;
-  }
-
-  .delete-zone:hover {
-    background-color: rgba(196, 195, 195, 0.8);
   }
 
 </style>

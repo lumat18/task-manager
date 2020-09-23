@@ -48,7 +48,7 @@ export default {
             },
           });
         this.clearFields();
-        await this.$router.push({ name: 'About' });
+        await this.$router.push({ name: 'Board' });
       }
     },
     clearFields() {
@@ -61,7 +61,6 @@ export default {
 
 <style scoped>
   .wrapper {
-    margin: auto;
     width: 400px;
     height: 300px;
     display: flex;

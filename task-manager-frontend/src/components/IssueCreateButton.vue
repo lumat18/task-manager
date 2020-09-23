@@ -17,7 +17,7 @@ export default {
   methods: {
     openModal() {
       this.$router.push({
-        name: 'create-issue',
+        name: 'CreateIssue',
         params: { columnIndex: this.columnIndex },
       });
     },
@@ -30,8 +30,8 @@ export default {
     position: relative;
     color: lightgray;
     font-size: 32px;
-    padding: 8px 16px;
-    display: block;
+    padding: 4px 4px;
+    margin: 4px 12px;
   }
 
   .creator:hover {

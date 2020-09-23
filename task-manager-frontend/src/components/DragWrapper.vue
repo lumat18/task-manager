@@ -1,6 +1,7 @@
 <template>
     <div draggable="true"
          @dragstart="onDrag"
+         @dragend.prevent="onDrop"
          @dragover.prevent
          @dragenter.prevent
          :class="{dragged : isDragged}">
@@ -26,7 +27,10 @@ export default {
     onDrag(event) {
       this.isDragged = true;
       event.dataTransfer.setData('payload', JSON.stringify(this.transferData));
-      this.$emit('drag');
+      this.$emit('start-drag');
+    },
+    onDrop() {
+      this.$emit('stop-drag');
     },
   },
 };

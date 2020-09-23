@@ -7,6 +7,9 @@
                  :title="column.name"
                  @titleChange="changeTitle"
     />
+    <div class="modal" v-if="isModalOpen" @click.self="closeModal">
+      <router-view/>
+    </div>
   </div>
 </template>
 
@@ -20,6 +23,9 @@ export default {
   components: { BoardColumn },
   computed: {
     ...mapState(['columns']),
+    isModalOpen() {
+      return this.$route.name === 'CreateIssue';
+    },
   },
   async created() {
     const state = await axios.get('http://localhost:8080/column')
@@ -36,7 +42,6 @@ export default {
     },
     changeTitle({ columnIndex, newTitle }) {
       this.$store.commit('CHANGE_COLUMN_TITLE', { columnIndex, newTitle });
-      console.log('column: ', this.columns[columnIndex - 1]);
       axios.put('http://localhost:8080/column',
         this.columns[columnIndex - 1],
         {
@@ -44,6 +49,9 @@ export default {
             'Content-Type': 'application/json',
           },
         });
+    },
+    closeModal() {
+      this.$router.push({ name: 'Board' });
     },
   },
 };
@@ -54,6 +62,15 @@ export default {
     display: flex;
     height: 100%;
     width: 100%;
-    background-color: #42b983;
+  }
+  .modal{
+    position: fixed;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(1, 1, 1, 0.5);
   }
 </style>

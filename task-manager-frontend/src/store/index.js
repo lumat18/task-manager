@@ -22,14 +22,11 @@ export default new Vuex.Store({
         id: 20, title, description,
       });
     },
+    DELETE_ISSUE(state, { fromColumnIndex, issueIndex }) {
+      state.columns[fromColumnIndex - 1].issues.splice(issueIndex, 1);
+    },
     LOAD_STATE(state, { loadedState }) {
       state.columns = loadedState;
-    },
-    DRAG_ON(state) {
-      state.isDragging = true;
-    },
-    DRAG_OFF(state) {
-      state.isDragging = false;
     },
   },
   actions: {

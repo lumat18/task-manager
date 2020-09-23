@@ -4,7 +4,8 @@
                   fromColumnIndex: columnIndex,
                   issueIndex,
                }"
-               @drag="dragIssue">
+               @start-drag="pickUpIssue"
+               @stop-drag="finishDrag">
     <h3>{{ issue.title }}</h3>
     <h4>{{ issue.description }}</h4>
   </DragWrapper>
@@ -32,8 +33,11 @@ export default {
     },
   },
   methods: {
-    dragIssue() {
-      this.$emit('drag', { issueIndex: this.issueIndex, columnIndex: this.columnIndex });
+    pickUpIssue() {
+      this.$emit('drag-issue', { issueIndex: this.issueIndex, columnIndex: this.columnIndex });
+    },
+    finishDrag() {
+      this.$emit('drop-issue');
     },
   },
 };
