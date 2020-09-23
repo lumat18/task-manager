@@ -1,12 +1,13 @@
 <template>
-    <DragWrapper class="wrapper"
-                 :transfer-data="{
+  <DragWrapper class="wrapper"
+               :transfer-data="{
                   fromColumnIndex: columnIndex,
                   issueIndex,
-               }">
-      <h3>{{ issue.title }}</h3>
-      <h4>{{ issue.description }}</h4>
-    </DragWrapper>
+               }"
+               @drag="dragIssue">
+    <h3>{{ issue.title }}</h3>
+    <h4>{{ issue.description }}</h4>
+  </DragWrapper>
 
 </template>
 
@@ -30,6 +31,11 @@ export default {
       required: true,
     },
   },
+  methods: {
+    dragIssue() {
+      this.$emit('drag', { issueIndex: this.issueIndex, columnIndex: this.columnIndex });
+    },
+  },
 };
 </script>
 
@@ -42,7 +48,8 @@ export default {
     margin: 0px 8px 8px 8px;
     background-color: lightgray;
     border-radius: 8px;
-    height: 100px;
+    max-height: 100px;
+    min-height: 100px;
     color: #2c3e50;
     padding: 8px;
     box-shadow: 4px 4px 4px #182538;

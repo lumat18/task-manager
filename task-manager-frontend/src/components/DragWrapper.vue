@@ -26,6 +26,7 @@ export default {
     onDrag(event) {
       this.isDragged = true;
       event.dataTransfer.setData('payload', JSON.stringify(this.transferData));
+      this.$emit('drag');
     },
   },
 };

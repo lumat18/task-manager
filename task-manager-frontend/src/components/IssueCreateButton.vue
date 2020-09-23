@@ -1,5 +1,8 @@
 <template>
-  <div class="creator" @click="openModal">+</div>
+    <div class="creator" @click="openModal">
+      +
+      <div class="tooltip">Create issue</div>
+    </div>
 </template>
 
 <script>
@@ -24,6 +27,7 @@ export default {
 
 <style scoped>
   .creator {
+    position: relative;
     color: lightgray;
     font-size: 32px;
     padding: 8px 16px;
@@ -33,5 +37,22 @@ export default {
   .creator:hover {
     font-weight: bolder;
     cursor: pointer;
+  }
+
+  .creator:hover .tooltip {
+    visibility: visible;
+  }
+
+  .tooltip{
+    display: block;
+    position: absolute;
+    background-color: #182538;
+    color: white;
+    padding: 8px;
+    visibility: hidden;
+    border-radius: 4px;
+    font-size: 16px;
+    z-index: 1;
+    transform: translate(-70px, -60px);
   }
 </style>

@@ -6,6 +6,7 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     columns: '',
+    isDragging: false,
   },
   mutations: {
     MOVE_ISSUE_CARD(state, { fromColumnIndex, toColumnIndex, issueIndex }) {
@@ -23,6 +24,12 @@ export default new Vuex.Store({
     },
     LOAD_STATE(state, { loadedState }) {
       state.columns = loadedState;
+    },
+    DRAG_ON(state) {
+      state.isDragging = true;
+    },
+    DRAG_OFF(state) {
+      state.isDragging = false;
     },
   },
   actions: {
