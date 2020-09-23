@@ -30,6 +30,6 @@ public class ColumnMapperImpl implements ColumnMapper{
         final Set<Issue> issueList = columnDto.getIssues().stream()
                 .map(issueMapper::mapToIssue)
                 .collect(Collectors.toSet());
-        return new Column(columnDto.getName(), issueList);
+        return new Column(columnDto.getId(), columnDto.getName(), issueList);
     }
 }

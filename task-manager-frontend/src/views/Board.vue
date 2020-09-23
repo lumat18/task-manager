@@ -5,6 +5,7 @@
                  :column-index="column.id"
                  :issues="column.issues"
                  :title="column.name"
+                 @titleChange="changeTitle"
     />
   </div>
 </template>
@@ -21,15 +22,29 @@ export default {
     ...mapState(['columns']),
   },
   async created() {
-    this.$store.state.columns = await axios.get('http://localhost:8080/column')
-      .then((response) => {
-        console.log(response.data);
-        return response.data;
-      })
+    const state = await axios.get('http://localhost:8080/column')
+      .then((response) => response.data)
       .catch((error) => {
         console.error(error);
-        this.$store.state.columns = [];
+        this.columns = [];
       });
+    this.loadState(state);
+  },
+  methods: {
+    loadState(state) {
+      this.$store.commit('LOAD_STATE', { loadedState: state });
+    },
+    changeTitle({ columnIndex, newTitle }) {
+      this.$store.commit('CHANGE_COLUMN_TITLE', { columnIndex, newTitle });
+      console.log('column: ', this.columns[columnIndex - 1]);
+      axios.put('http://localhost:8080/column',
+        this.columns[columnIndex - 1],
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+    },
   },
 };
 </script>

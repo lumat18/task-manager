@@ -2,6 +2,7 @@ package com.spartez.services;
 
 import com.spartez.domain.Column;
 import com.spartez.repositories.ColumnRepository;
+import com.spartez.repositories.IssueRepository;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -11,9 +12,11 @@ import java.util.List;
 @Transactional
 public class ColumnService {
     private final ColumnRepository columnRepository;
+    private final IssueRepository issueRepository;
 
-    public ColumnService(ColumnRepository columnRepository) {
+    public ColumnService(ColumnRepository columnRepository, IssueRepository issueRepository) {
         this.columnRepository = columnRepository;
+        this.issueRepository = issueRepository;
     }
 
     public Column create(final Column column){
@@ -32,6 +35,7 @@ public class ColumnService {
         Column columnInDatabase = getById(column.getId());
         columnInDatabase.setName(column.getName());
         columnInDatabase.setIssues(column.getIssues());
+        issueRepository.saveAll(columnInDatabase.getIssues());
         return columnRepository.save(columnInDatabase);
     }
 

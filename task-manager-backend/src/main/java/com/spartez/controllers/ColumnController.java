@@ -1,9 +1,13 @@
 package com.spartez.controllers;
 
 import com.spartez.domain.Column;
+import com.spartez.domain.Issue;
 import com.spartez.mappers.ColumnMapper;
+import com.spartez.mappers.IssueMapper;
 import com.spartez.model.ColumnDto;
+import com.spartez.model.IssueDto;
 import com.spartez.services.ColumnService;
+import com.spartez.services.IssueService;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -17,10 +21,14 @@ import java.util.stream.Collectors;
 public class ColumnController {
     private final ColumnService columnService;
     private final ColumnMapper columnMapper;
+    private final IssueMapper issueMapper;
+    private final IssueService issueService;
 
-    public ColumnController(ColumnService columnService, @Qualifier("columnMapperImpl") ColumnMapper columnMapper) {
+    public ColumnController(ColumnService columnService, @Qualifier("columnMapperImpl") ColumnMapper columnMapper, @Qualifier("issueMapperImpl") IssueMapper issueMapper, IssueService issueService) {
         this.columnService = columnService;
         this.columnMapper = columnMapper;
+        this.issueMapper = issueMapper;
+        this.issueService = issueService;
     }
 
     @PostMapping
@@ -28,6 +36,16 @@ public class ColumnController {
         final Column column = columnMapper.mapToColumn(columnDto);
         final Column createdColumn = columnService.create(column);
         return columnMapper.mapToColumnDto(createdColumn);
+    }
+
+    @PostMapping("/{id}/add-issue")
+    public IssueDto createIssue(@PathVariable("id") final Long id, @RequestBody final IssueDto issueDto){
+        final Issue issue = issueMapper.mapToIssue(issueDto);
+        final Issue newIssue = issueService.create(issue);
+        final Column column = columnService.getById(id);
+        column.getIssues().add(newIssue);
+        columnService.update(column);
+        return issueMapper.mapToIssueDto(newIssue);
     }
 
     @GetMapping
@@ -43,7 +61,7 @@ public class ColumnController {
     }
 
     @PutMapping
-    public ColumnDto updateColumn(final ColumnDto columnDto){
+    public ColumnDto updateColumn(@RequestBody final ColumnDto columnDto){
         final Column updatedColumn = columnService.update(columnMapper.mapToColumn(columnDto));
         return columnMapper.mapToColumnDto(updatedColumn);
     }
