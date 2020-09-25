@@ -4,7 +4,6 @@ import com.spartez.domain.Issue;
 import com.spartez.mappers.IssueMapper;
 import com.spartez.model.IssueDto;
 import com.spartez.services.IssueService;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,7 +17,7 @@ public class IssueController {
     private final IssueService issueService;
     private final IssueMapper issueMapper;
 
-    public IssueController(IssueService issueService, @Qualifier("issueMapperImpl") IssueMapper issueMapper) {
+    public IssueController(IssueService issueService, IssueMapper issueMapper) {
         this.issueService = issueService;
         this.issueMapper = issueMapper;
     }
@@ -47,7 +46,7 @@ public class IssueController {
 
     @PutMapping
     @ResponseStatus(HttpStatus.OK)
-    public IssueDto updateIssue(@PathVariable("id") final IssueDto issueDto){
+    public IssueDto updateIssue(@RequestBody final IssueDto issueDto){
         final Issue updatedIssue = issueService.update(issueMapper.mapToIssue(issueDto));
         return issueMapper.mapToIssueDto(updatedIssue);
     }

@@ -32,6 +32,7 @@ public class ColumnController {
     }
 
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     public ColumnDto createColumn(final ColumnDto columnDto){
         final Column column = columnMapper.mapToColumn(columnDto);
         final Column createdColumn = columnService.create(column);
@@ -39,6 +40,7 @@ public class ColumnController {
     }
 
     @PostMapping("/{id}/add-issue")
+    @ResponseStatus(HttpStatus.CREATED)
     public IssueDto createIssue(@PathVariable("id") final Long id, @RequestBody final IssueDto issueDto){
         final Issue issue = issueMapper.mapToIssue(issueDto);
         final Issue newIssue = issueService.create(issue);
@@ -49,6 +51,7 @@ public class ColumnController {
     }
 
     @GetMapping
+    @ResponseStatus(HttpStatus.OK)
     public List<ColumnDto> getAllColumns(){
         return columnService.getAll().stream()
                 .map(columnMapper::mapToColumnDto)
@@ -56,17 +59,20 @@ public class ColumnController {
     }
 
     @GetMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
     public ColumnDto getColumnById(@PathVariable("id") final Long id){
         return columnMapper.mapToColumnDto(columnService.getById(id));
     }
 
     @PutMapping
+    @ResponseStatus(HttpStatus.OK)
     public ColumnDto updateColumn(@RequestBody final ColumnDto columnDto){
         final Column updatedColumn = columnService.update(columnMapper.mapToColumn(columnDto));
         return columnMapper.mapToColumnDto(updatedColumn);
     }
 
     @DeleteMapping("/{id")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteColumn(@PathVariable("id") final Long id){
         columnService.delete(id);
     }

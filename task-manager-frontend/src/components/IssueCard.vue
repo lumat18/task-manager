@@ -3,13 +3,13 @@
                :transfer-data="{
                   fromColumnIndex: columnIndex,
                   issueIndex,
-               }"
-               @start-drag="pickUpIssue"
-               @stop-drag="finishDrag">
+               }">
     <h3>{{ issue.title }}</h3>
     <h4>{{ issue.description }}</h4>
+    <button class="delete-button" @click="issueDelete">
+      <div class="delete-x">+</div>
+    </button>
   </DragWrapper>
-
 </template>
 
 <script>
@@ -33,11 +33,8 @@ export default {
     },
   },
   methods: {
-    pickUpIssue() {
-      this.$emit('drag-issue', { issueIndex: this.issueIndex, columnIndex: this.columnIndex });
-    },
-    finishDrag() {
-      this.$emit('drop-issue');
+    issueDelete() {
+      this.$store.dispatch('deleteIssue', { fromColumnIndex: this.columnIndex, issueIndex: this.issueIndex, issue: this.issue });
     },
   },
 };
@@ -45,6 +42,7 @@ export default {
 
 <style scoped>
   .wrapper {
+    position: relative;
     display: flex;
     justify-content: center;
     align-items: start;
@@ -58,6 +56,41 @@ export default {
     padding: 8px;
     box-shadow: 4px 4px 4px #182538;
     transform: translate(0, 0);
+  }
+  .wrapper:hover{
+    transform: translate(-1px, -1px);
+  }
+  .delete-button {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    padding: 4px;
+    margin: 0;
+    max-height: 30px;
+    display: flex;
+    align-items: center;
+    background: none;
+    border: none;
+    visibility: hidden;
+  }
+  .delete-x {
+    font-size: 32px;
+    font-weight: lighter;
+    transform: rotate(45deg);
+  }
+
+  .delete-x:hover{
+    color: #182538;
+  }
+
+  .delete-button:focus{
+    outline: none;
+    box-shadow: none;
+  }
+
+  .wrapper:hover .delete-button{
+    color: gray;
+    visibility: visible;
   }
 
   h3 {
