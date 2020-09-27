@@ -31,7 +31,6 @@ export default new Vuex.Store({
   },
   actions: {
     async changeColumnTitle({ state, commit }, { columnIndex, newTitle }) {
-      console.log('newTitle ', newTitle);
       commit('CHANGE_COLUMN_TITLE', { columnIndex, newTitle });
       await API.default.updateColumn(state.columns[columnIndex - 1]);
     },
@@ -42,6 +41,10 @@ export default new Vuex.Store({
     async deleteIssue({ commit }, { fromColumnIndex, issueIndex, issue }) {
       commit('DELETE_ISSUE', { fromColumnIndex, issueIndex });
       await API.default.deleteIssue(issue.id);
+    },
+    async createIssue({ commit }, { title, description, columnIndex }) {
+      commit('CREATE_ISSUE', { title, description, columnIndex });
+      await API.default.createIssue({ title, description, columnIndex });
     },
   },
   modules: {

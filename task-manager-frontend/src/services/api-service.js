@@ -13,7 +13,10 @@ export default {
     return apiClient.put('/column', column);
   },
   deleteIssue(issueId) {
-    console.log('delete issue ', issueId);
     return apiClient.delete(`/issue/${issueId}`);
+  },
+  createIssue(issue) {
+    console.log(issue);
+    return apiClient.post('/issue', issue);
   },
 };

@@ -8,8 +8,6 @@
 </template>
 
 <script>
-import axios from 'axios';
-
 export default {
   name: 'IssueCreationModal',
   data() {
@@ -30,25 +28,15 @@ export default {
     },
   },
   methods: {
-    async createIssue() {
+    createIssue() {
       if (this.isTitleValid) {
-        this.$store.commit('CREATE_ISSUE', {
+        this.$store.dispatch('createIssue', {
           title: this.title,
           description: this.description,
           columnIndex: this.columnIndex,
         });
-        await axios.post(`http://localhost:8080/column/${this.columnIndex}/add-issue`,
-          {
-            title: this.title,
-            description: this.description,
-          },
-          {
-            headers: {
-              'Content-Type': 'application/json',
-            },
-          });
         this.clearFields();
-        await this.$router.push({ name: 'Board' });
+        this.$router.push({ name: 'Board' });
       }
     },
     clearFields() {
