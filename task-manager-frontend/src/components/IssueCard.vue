@@ -3,6 +3,7 @@
                :transfer-data="{
                   fromColumnIndex: columnIndex,
                   issueIndex,
+                  issue,
                }">
     <h3>{{ issue.title }}</h3>
     <h4>{{ issue.description }}</h4>

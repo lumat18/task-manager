@@ -17,7 +17,7 @@ import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/column")
+@RequestMapping("/api/column")
 public class ColumnController {
     private final ColumnService columnService;
     private final ColumnMapper columnMapper;

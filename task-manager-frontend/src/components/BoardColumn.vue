@@ -21,7 +21,6 @@
 import IssueCard from './IssueCard.vue';
 import IssueCreateButton from './IssueCreateButton.vue';
 import DropWrapper from './DropWrapper.vue';
-import issueMovement from '../mixins/issueMovement';
 
 export default {
   name: 'BoardColumn',
@@ -30,7 +29,6 @@ export default {
     IssueCreateButton,
     DropWrapper,
   },
-  mixins: [issueMovement],
   data() {
     return {
       columnTitle: this.title,
@@ -53,6 +51,14 @@ export default {
   methods: {
     changeTitle() {
       this.$store.dispatch('changeColumnTitle', { columnIndex: this.columnIndex, newTitle: this.columnTitle });
+    },
+    moveIssue({ fromColumnIndex, issueIndex, issue }) {
+      this.$store.dispatch('moveIssue', {
+        fromColumnIndex,
+        toColumnIndex: this.columnIndex,
+        issueIndex,
+        issue,
+      });
     },
   },
 };

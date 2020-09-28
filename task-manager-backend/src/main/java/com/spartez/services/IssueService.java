@@ -45,6 +45,14 @@ public class IssueService {
         return issueRepository.save(issueInDatabase);
     }
 
+    public void moveToColumn(final Issue issue, final Column newColumn){
+        Column oldColumn = columnRepository.getByIssuesContains(issue);
+        oldColumn.getIssues().remove(issue);
+        newColumn.getIssues().add(issue);
+        columnRepository.save(oldColumn);
+        columnRepository.save(newColumn);
+    }
+
     public void delete(Long id) {
         Issue issue = issueRepository.findById(id).orElseThrow();
         Column column = columnRepository.getByIssuesContains(issue);

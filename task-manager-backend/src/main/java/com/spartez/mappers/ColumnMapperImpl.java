@@ -21,6 +21,7 @@ public class ColumnMapperImpl implements ColumnMapper{
     public ColumnDto mapToColumnDto(Column column) {
         final Set<IssueDto> issueDtoList = column.getIssues().stream()
                 .map(issueMapper::mapToIssueDto)
+                .peek(issueDto -> issueDto.setColumnIndex(column.getId()))
                 .collect(Collectors.toSet());
         return new ColumnDto(column.getId(), column.getName(), issueDtoList);
     }

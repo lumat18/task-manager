@@ -30,21 +30,27 @@ export default new Vuex.Store({
     },
   },
   actions: {
-    async changeColumnTitle({ state, commit }, { columnIndex, newTitle }) {
+    changeColumnTitle({ state, commit }, { columnIndex, newTitle }) {
       commit('CHANGE_COLUMN_TITLE', { columnIndex, newTitle });
-      await API.default.updateColumn(state.columns[columnIndex - 1]);
+      API.default.updateColumn(state.columns[columnIndex - 1]);
     },
     async loadState({ commit }) {
-      const response = await API.default.fetchIssues();
+      const response = API.default.fetchIssues();
       commit('LOAD_STATE', response.data);
     },
-    async deleteIssue({ commit }, { fromColumnIndex, issueIndex, issue }) {
+    deleteIssue({ commit }, { fromColumnIndex, issueIndex, issue }) {
       commit('DELETE_ISSUE', { fromColumnIndex, issueIndex });
-      await API.default.deleteIssue(issue.id);
+      API.default.deleteIssue(issue.id);
     },
-    async createIssue({ commit }, { title, description, columnIndex }) {
+    createIssue({ commit }, { title, description, columnIndex }) {
       commit('CREATE_ISSUE', { title, description, columnIndex });
-      await API.default.createIssue({ title, description, columnIndex });
+      API.default.createIssue({ title, description, columnIndex });
+    },
+    moveIssue({ commit }, {
+      fromColumnIndex, toColumnIndex, issueIndex, issue,
+    }) {
+      commit('MOVE_ISSUE_CARD', { fromColumnIndex, toColumnIndex, issueIndex });
+      API.default.moveIssue({ ...issue, toColumnIndex });
     },
   },
   modules: {

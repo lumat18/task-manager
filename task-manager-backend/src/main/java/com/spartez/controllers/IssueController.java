@@ -14,7 +14,7 @@ import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/issue")
+@RequestMapping("/api/issue")
 public class IssueController {
     private final IssueService issueService;
     private final IssueMapper issueMapper;
@@ -30,8 +30,8 @@ public class IssueController {
     @ResponseStatus(HttpStatus.CREATED)
     public IssueDto createIssue(@RequestBody final IssueDto issueDto){
         final Issue issue = issueMapper.mapToIssue(issueDto);
-        Issue createdIssue = issueService.create(issue);
-        Column column = columnService.getById(issueDto.getColumnIndex());
+        final Issue createdIssue = issueService.create(issue);
+        final Column column = columnService.getById(issueDto.getColumnIndex());
         column.getIssues().add(createdIssue);
         columnService.update(column);
         return issueMapper.mapToIssueDto(createdIssue);
@@ -55,7 +55,16 @@ public class IssueController {
     @ResponseStatus(HttpStatus.OK)
     public IssueDto updateIssue(@RequestBody final IssueDto issueDto){
         final Issue updatedIssue = issueService.update(issueMapper.mapToIssue(issueDto));
+        Column column = columnService.getById(issueDto.getColumnIndex());
         return issueMapper.mapToIssueDto(updatedIssue);
+    }
+
+    @PutMapping("/move")
+    @ResponseStatus(HttpStatus.OK)
+    public void moveIssue(@RequestBody final IssueDto issueDto){
+        final Issue issue = issueMapper.mapToIssue(issueDto);
+        final Column column = columnService.getById(issueDto.getColumnIndex());
+        issueService.moveToColumn(issue, column);
     }
 
     @DeleteMapping("/{id}")
