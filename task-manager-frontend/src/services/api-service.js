@@ -10,15 +10,15 @@ export default {
     return apiClient.get('/column', { headers: authenticationHeader() });
   },
   updateColumn(column) {
-    return apiClient.put('/column', column);
+    return apiClient.put('/column', column, { headers: authenticationHeader() });
   },
   deleteIssue(issueId) {
-    return apiClient.delete(`/issue/${issueId}`);
+    return apiClient.delete(`/issue/${issueId}`, { headers: authenticationHeader() });
   },
   createIssue(issue) {
-    return apiClient.post('/issue', issue);
+    return apiClient.post('/issue', issue, { headers: authenticationHeader() });
   },
   moveIssue(issue) {
-    return apiClient.put('/issue/move', issue);
+    return apiClient.put('/issue/move', issue, { headers: authenticationHeader() });
   },
 };
