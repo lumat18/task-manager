@@ -17,6 +17,7 @@ import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 @RestController
+@CrossOrigin("http://localhost:8081")
 @RequestMapping("/api/column")
 public class ColumnController {
     private final ColumnService columnService;
