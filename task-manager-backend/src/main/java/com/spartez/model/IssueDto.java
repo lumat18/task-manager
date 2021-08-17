@@ -14,6 +14,7 @@ public class IssueDto {
     private String title;
     private String description;
     private Long columnIndex;
+    private Long destColumnIndex;
 
     public IssueDto(Long id, String title, String description) {
         this.id = id;

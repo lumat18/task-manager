@@ -50,11 +50,11 @@ export default new Vuex.Store({
         id, title, description, columnIndex,
       });
     },
-    moveIssue({ commit }, {
+    async moveIssue({ commit }, {
       fromColumnIndex, toColumnIndex, issueIndex, issue,
     }) {
+      await API.default.moveIssue({ ...issue, destColumnIndex: toColumnIndex });
       commit('MOVE_ISSUE_CARD', { fromColumnIndex, toColumnIndex, issueIndex });
-      API.default.moveIssue({ ...issue, toColumnIndex });
     },
   },
   modules: {

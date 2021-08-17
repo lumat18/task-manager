@@ -63,9 +63,8 @@ public class IssueController {
     @PutMapping("/move")
     @ResponseStatus(HttpStatus.OK)
     public void moveIssue(@RequestBody final IssueDto issueDto){
-        final Issue issue = issueMapper.mapToIssue(issueDto);
-        final Column column = columnService.getById(issueDto.getColumnIndex());
-        issueService.moveToColumn(issue, column);
+        final Issue issue = issueService.getById(issueDto.getId());
+        issueService.moveToColumn(issue, issueDto.getColumnIndex(), issueDto.getDestColumnIndex());
     }
 
     @DeleteMapping("/{id}")
