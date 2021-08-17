@@ -14,6 +14,7 @@ import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 @RestController
+@CrossOrigin("http://localhost:8081")
 @RequestMapping("/api/issue")
 public class IssueController {
     private final IssueService issueService;
@@ -55,7 +56,7 @@ public class IssueController {
     @ResponseStatus(HttpStatus.OK)
     public IssueDto updateIssue(@RequestBody final IssueDto issueDto){
         final Issue updatedIssue = issueService.update(issueMapper.mapToIssue(issueDto));
-        Column column = columnService.getById(issueDto.getColumnIndex());
+        columnService.getById(issueDto.getColumnIndex());
         return issueMapper.mapToIssueDto(updatedIssue);
     }
 
